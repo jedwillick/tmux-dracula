@@ -27,6 +27,9 @@ main()
   show_kubernetes_context_label=$(get_tmux_option "@dracula-kubernetes-context-label" "")
   IFS=' ' read -r -a plugins <<< $(get_tmux_option "@dracula-plugins" "battery network weather")
 
+  left_length=$(get_tmux_option "@dracula-left-length" 100)
+  right_length=$(get_tmux_option "@dracula-right-length" 100)
+
   # Dracula Color Pallette
   white='#f8f8f2'
   gray='#44475a'
@@ -98,8 +101,8 @@ main()
   fi
 
   # set length
-  tmux set-option -g status-left-length 100
-  tmux set-option -g status-right-length 100
+  tmux set-option -g status-left-length "${left_length}"
+  tmux set-option -g status-right-length "${right_length}"
 
   # pane border styling
   if $show_border_contrast; then
@@ -130,7 +133,7 @@ main()
 
     if [ $plugin = "git" ]; then
       IFS=' ' read -r -a colors  <<< $(get_tmux_option "@dracula-git-colors" "green dark_gray")
-        script="#($current_dir/git.sh)"     
+        script="#($current_dir/git.sh)"
     fi
 
     if [ $plugin = "battery" ]; then
